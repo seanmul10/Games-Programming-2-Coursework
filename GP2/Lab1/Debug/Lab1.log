@@ -1,0 +1,6 @@
+﻿  GameLoop.cpp
+C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(86,28): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(90,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(94,26): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(98,25): warning C4305: 'argument': truncation from 'double' to 'float'
+  Lab1.vcxproj -> C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Debug\Lab1.exe
