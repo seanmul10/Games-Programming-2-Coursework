@@ -15,6 +15,9 @@ GameLoop::GameLoop()
 	// Shaders
 	Shader* shader();
 
+	//Audio
+	Audio* audio();
+
 	i = 0.0f;
 }
 
@@ -28,13 +31,18 @@ void GameLoop::InitSystems()
 {
 	display.InitDisplay();
 	// Add meshes
-	mesh.LoadModel("..\\res\\monkey3.obj");
+	mesh[0].LoadModel("..\\res\\monkey3.obj");
+	mesh[1].LoadModel("..\\res\\monkey3.obj");
 
 	// Add textures
 	texture.InitTexture("bricks.jpg");
 
 	// Add shaders
 	shader.InitShader("shader");
+
+	// Load sounds
+	sounds[0] = audio.loadSound("..\\res\\birds.wav");
+	sounds[1] = audio.loadSound("..\\res\\bounce.wav");
 
 	// Set camera
 	mainCamera.initCamera(glm::vec3(0, 0, -5), 70.0f, (float)display.GetScreenWidth() / display.GetScreenHeight(), 0.01f, 1000.0f);
@@ -110,7 +118,16 @@ void GameLoop::Update()
 	transform.SetRot(glm::vec3(0, 180, 0));
 	transform.SetScale(glm::vec3(1, 1, 1));
 
-	mesh.UpdateSphere(*transform.GetPos(), 0.62f);
+	mesh[0].UpdateSphere(*transform.GetPos(), 0.62f);
+	
+	Transform t2;
+
+	// Set transform
+	t2.SetPos(glm::vec3(0, -1, 0));
+	t2.SetRot(glm::vec3(0, 180, 0));
+	t2.SetScale(glm::vec3(2, 1, 1));
+
+	mesh[1].UpdateSphere(*t2.GetPos(), 0.62f);
 
 	// Shaders
 	shader.Bind(); // Bind shader
@@ -119,24 +136,23 @@ void GameLoop::Update()
 	// Textures
 	texture.Bind(0); // Bind the texture
 
-	if (CheckCollision(mainCamera.GetPosition(), 2, *transform.GetPos(), 0.62f))
+	display.ClearDisplay(0.56f, 0.79f, 0.89f, 1.0f);
+
+	if (CheckCollision(mainCamera.GetPosition(), 20, mesh[1].GetSpherePosition(), 10))
 	{
-		display.ClearDisplay(1.0f, 0.0f, 0.0f, 1.0f);
-	}
-	else
-	{
-		display.ClearDisplay(0.0f, 0.0f, 0.0f, 1.0f);
+		audio.playSound(sounds[1]);
 	}
 
-	i += 0.01f; // Increment gameloop counter
+	i++; // Increment gameloop counter
 }
 
 void GameLoop::Draw()
 {
-	display.ClearDisplay(0.0f, 0.0f, 0.0f, 1.0f); // Background colour of the game window
+	//display.ClearDisplay(0.0f, 0.0f, 0.0f, 1.0f); // Background colour of the game window
 
 	// Draw meshes
-	mesh.Draw();
+	mesh[0].Draw();
+	mesh[1].Draw();
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();

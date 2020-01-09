@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Audio.h"
 #include "transform.h"
 #include <iostream>
 #include <string>
@@ -30,10 +31,13 @@ private:
 
 	Display display; // The game display
 	GameState state; // The current state of the game loop
-	Mesh mesh; // Single mesh
+	Mesh mesh[2]; // Array of meshes
 	Texture texture; // Single texture
 	Shader shader;
+	Audio audio; // For audio functions
 	Camera mainCamera; // The main camera in the world
+
+	unsigned int sounds[10];
 
 	float i; // Counter for the game loop
 };

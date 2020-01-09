@@ -1,6 +1,7 @@
-﻿  GameLoop.cpp
-C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(86,28): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(90,29): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(94,26): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Lab1\GameLoop.cpp(98,25): warning C4305: 'argument': truncation from 'double' to 'float'
-  Lab1.vcxproj -> C:\Users\Sean Muldoon\Desktop\University Work\Games Programming 2\Coursework - Updated\Coursework\Lab4\Lab4\Debug\Lab1.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Lab1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  GameLoop.cpp
+C:\Users\Sean Muldoon\Documents\GitHub\Games-Programming-2-Coursework\GP2\Lab1\GameLoop.cpp(94,28): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Documents\GitHub\Games-Programming-2-Coursework\GP2\Lab1\GameLoop.cpp(98,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Documents\GitHub\Games-Programming-2-Coursework\GP2\Lab1\GameLoop.cpp(102,26): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Sean Muldoon\Documents\GitHub\Games-Programming-2-Coursework\GP2\Lab1\GameLoop.cpp(106,25): warning C4305: 'argument': truncation from 'double' to 'float'
+  Lab1.vcxproj -> C:\Users\Sean Muldoon\Documents\GitHub\Games-Programming-2-Coursework\GP2\Debug\GP2 Coursework.exe
