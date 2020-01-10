@@ -93,8 +93,8 @@ void Shader::Bind()
 
 void Shader::Update(const Transform& transform, const Camera& camera)
 {
-	// Update the camera by getting the view from the intended projection of the worlds transform
-	glm::mat4 mvp = camera.GetViewProjection() * transform.GetModel();
+	// Update the game view by getting the from the intended projection of the world
+	glm::mat4 mvp = camera.GetViewProjection() * transform.GetModel();;
 	glUniformMatrix4fv(uniforms[TRANSFORM_U], 1, GLU_FALSE, &mvp[0][0]);
 }
 

@@ -9,7 +9,7 @@ public:
 	Texture();
 	~Texture();
 
-	void InitTexture(const std::string&); // Initialises the texture
+	GLuint InitTexture(const std::string&); // Initialises the texture
 	void Bind(unsigned int); // Bind the texture and give it an index from 0 - 31
 
 private:

@@ -16,7 +16,7 @@ void Mesh::InitModel(const IndexedModel& model)
 {
 	drawCount = model.indices.size();
 
-	Sphere sphereMesh(); // Create instance of sphereMesh
+	//Sphere sphereMesh(); // Create instance of sphereMesh
 
 	glGenVertexArrays(1, &vertexArrayObject); //generate a vertex array and store it in the VAO
 	glBindVertexArray(vertexArrayObject); //bind the VAO (any operation that works on a VAO will work on our bound VAO - binding)
@@ -44,12 +44,20 @@ void Mesh::InitModel(const IndexedModel& model)
 	glBindVertexArray(0); // unbind our VAO
 }
 
-void Mesh::Draw()
+void Mesh::Draw(GLuint texture)
 {
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(vertexArrayObject);
 
-	glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, 0, drawCount);
+	// Only use glDrawArrays if the model has no indices
+	if (drawCount == 0)
+	{
+		glDrawArrays(GL_TRIANGLES, 0, drawCount);
+	}
+	else
+	{
+		glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
+	}
 
 	glBindVertexArray(0);
 }

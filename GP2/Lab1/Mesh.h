@@ -54,7 +54,7 @@ public:
 	void LoadModel(const std::string&); // Loads model from an address
 	void InitModel(const IndexedModel&); // Initialises the model for use
 
-	void Draw(); // Draws the model on the screen
+	void Draw(GLuint texture); // Draws the model on the screen with the specified texture
 
 	Sphere sphereMesh;
 

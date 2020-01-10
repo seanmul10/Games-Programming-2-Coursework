@@ -5,7 +5,7 @@ Texture::Texture()
 
 }
 
-void Texture::InitTexture(const std::string& filename)
+GLuint Texture::InitTexture(const std::string& filename)
 {
 	// Texture dimensions
 	int width;
@@ -33,6 +33,8 @@ void Texture::InitTexture(const std::string& filename)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData); //Target, Mipmapping Level, Pixel Format, Width, Height, Border Size, Input Format, Data Type of Texture, Image Data
 
 	stbi_image_free(imageData);
+
+	return textureHandle;
 }
 
 void Texture::Bind(unsigned int uint)

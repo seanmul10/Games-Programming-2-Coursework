@@ -1,6 +1,10 @@
 #include "GameLoop.h"
 
 Transform transform;
+Transform transform2;
+Transform transform3;
+
+float degree = 0;
 
 GameLoop::GameLoop()
 {
@@ -18,6 +22,9 @@ GameLoop::GameLoop()
 	//Audio
 	Audio* audio();
 
+	// Golf ball
+	Ball* ball();
+
 	i = 0.0f;
 }
 
@@ -31,29 +38,39 @@ void GameLoop::InitSystems()
 {
 	display.InitDisplay();
 	// Add meshes
-	mesh[0].LoadModel("..\\res\\monkey3.obj");
-	mesh[1].LoadModel("..\\res\\monkey3.obj");
+	mesh.LoadModel("grass.obj");
+	mesh2.LoadModel("table.obj");
+	mesh3.LoadModel("golf_ball.obj");
 
 	// Add textures
-	texture.InitTexture("bricks.jpg");
+	textures.push_back(texture.InitTexture("grass.jpg"));
+	texture.Bind(0);
+	textures.push_back(texture.InitTexture("wood.png"));
+	texture.Bind(1);
+	textures.push_back(texture.InitTexture("golf_ball2.jpg"));
+	texture.Bind(2);
 
 	// Add shaders
 	shader.InitShader("shader");
 
 	// Load sounds
-	sounds[0] = audio.loadSound("..\\res\\birds.wav");
-	sounds[1] = audio.loadSound("..\\res\\bounce.wav");
+	sounds.push_back(audio.loadSound("..\\res\\birds.wav"));
+	sounds.push_back(audio.loadSound("..\\res\\bounce.wav"));
+	sounds.push_back(audio.loadSound("..\\res\\ping.wav"));
 
 	// Set camera
-	mainCamera.initCamera(glm::vec3(0, 0, -5), 70.0f, (float)display.GetScreenWidth() / display.GetScreenHeight(), 0.01f, 1000.0f);
+	mainCamera.initCamera(glm::vec3(0, 40, -70), 70.0f, (float)display.GetScreenWidth() / display.GetScreenHeight(), 0.01f, 10000.0f);
+	mainCamera.Pitch(0.3);
 }
 
 
 void GameLoop::RunGameLoop()
 {
+	audio.playSound(sounds[0]);
 	while (state == GameState::PLAY)
 	{
 		ProcessInputs();
+		CollisionDetection();
 		Update();
 		Draw();
 	}
@@ -75,19 +92,19 @@ void GameLoop::ProcessInputs()
 			{
 			case SDLK_w:
 				// Move forward
-				mainCamera.MoveForward(1);
+				mainCamera.MoveForward(10);
 				break;
 			case SDLK_s:
 				// Move backward
-				mainCamera.MoveForward(-1);
+				mainCamera.MoveForward(-5);
 				break;
 			case SDLK_a:
 				// Move left
-				mainCamera.MoveLeft(1);
+				mainCamera.MoveLeft(5);
 				break;
 			case SDLK_d:
 				// Move right
-				mainCamera.MoveLeft(-1);
+				mainCamera.MoveLeft(-5);
 				break;
 			case SDLK_LEFT:
 				// Turn left
@@ -105,54 +122,68 @@ void GameLoop::ProcessInputs()
 				// Pitch down
 				mainCamera.Pitch(0.1);
 				break;
+			case SDLK_SPACE:
+				if (ball.Launch(0.5f))
+				{
+					audio.playSound(sounds[2]);
+				}
+				break;
 			}
 			break;
 		}
 	}
 }
 
+// Check for possible collisions
+void GameLoop::CollisionDetection()
+{
+	if (CheckCollision(*transform2.GetPos(), 7.25f, *transform3.GetPos(), 1.5f))
+	{
+		if (ball.Impact())
+		{
+			audio.playSound(sounds[1]);
+		}
+	}
+}
+
 void GameLoop::Update()
 {
-	// Set transform
-	transform.SetPos(glm::vec3(0, -1, 0));
-	transform.SetRot(glm::vec3(0, 180, 0));
-	transform.SetScale(glm::vec3(1, 1, 1));
+	// Set transforms
+	//Mesh 1
+	transform.SetPos(glm::vec3(0, 0, 0));
+	transform.SetRot(glm::vec3(4.7, 0, 0));
+	transform.SetScale(glm::vec3(0.1, 0.1, 0.1));
 
-	mesh[0].UpdateSphere(*transform.GetPos(), 0.62f);
-	
-	Transform t2;
+	//Mesh 2
+	transform2.SetPos(glm::vec3(0, 5, 0));
+	transform2.SetRot(glm::vec3(0, 0.2, 0));
+	transform2.SetScale(glm::vec3(1, 1, 1));
 
-	// Set transform
-	t2.SetPos(glm::vec3(0, -1, 0));
-	t2.SetRot(glm::vec3(0, 180, 0));
-	t2.SetScale(glm::vec3(2, 1, 1));
+	//Mesh 3
+	transform3.SetPos(ball.position);
+	transform3.SetRot(glm::vec3(0, -1.5, 0));
+	transform3.SetScale(glm::vec3(0.1, 0.1, 0.1));
 
-	mesh[1].UpdateSphere(*t2.GetPos(), 0.62f);
-
-	// Shaders
-	shader.Bind(); // Bind shader
-	shader.Update(transform, mainCamera); // Update shader
-
-	// Textures
-	texture.Bind(0); // Bind the texture
-
-	display.ClearDisplay(0.56f, 0.79f, 0.89f, 1.0f);
-
-	if (CheckCollision(mainCamera.GetPosition(), 20, mesh[1].GetSpherePosition(), 10))
-	{
-		audio.playSound(sounds[1]);
-	}
+	ball.Update();
 
 	i++; // Increment gameloop counter
 }
 
 void GameLoop::Draw()
 {
-	//display.ClearDisplay(0.0f, 0.0f, 0.0f, 1.0f); // Background colour of the game window
+	display.ClearDisplay(0.56f, 0.79f, 0.89f, 1.0f); // Background colour of the game window
 
-	// Draw meshes
-	mesh[0].Draw();
-	mesh[1].Draw();
+	shader.Bind(); // Bind shader
+	shader.Update(transform, mainCamera);
+	mesh.Draw(textures[0]);
+
+	shader.Bind(); // Bind shader
+	shader.Update(transform2, mainCamera);
+	mesh2.Draw(textures[1]);
+
+	shader.Bind(); // Bind shader
+	shader.Update(transform3, mainCamera);
+	mesh3.Draw(textures[2]);
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();
