@@ -20,7 +20,8 @@ void Shader::InitShader(const std::string& filename)
 	}
 
 	// Attributes
-	glBindAttribLocation(program, 0, "position"); // associate attribute variable with our shader program attribute (in this case attribute vec3 position;)
+	// associate attribute variable with our shader program attribute (in this case attribute vec3 position;)
+	glBindAttribLocation(program, 0, "position");
 	glBindAttribLocation(program, 1, "texCoord");
 
 	// Create executables that will run on the GPU shaders, if it doesn't work, return an error

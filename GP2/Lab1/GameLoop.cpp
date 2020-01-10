@@ -4,8 +4,6 @@ Transform transform;
 Transform transform2;
 Transform transform3;
 
-float degree = 0;
-
 GameLoop::GameLoop()
 {
 	state = GameState::PLAY;
@@ -70,8 +68,8 @@ void GameLoop::RunGameLoop()
 	while (state == GameState::PLAY)
 	{
 		ProcessInputs();
-		CollisionDetection();
 		Update();
+		CollisionDetection();
 		Draw();
 	}
 }
@@ -134,18 +132,6 @@ void GameLoop::ProcessInputs()
 	}
 }
 
-// Check for possible collisions
-void GameLoop::CollisionDetection()
-{
-	if (CheckCollision(*transform2.GetPos(), 7.25f, *transform3.GetPos(), 1.5f))
-	{
-		if (ball.Impact())
-		{
-			audio.playSound(sounds[1]);
-		}
-	}
-}
-
 void GameLoop::Update()
 {
 	// Set transforms
@@ -167,6 +153,19 @@ void GameLoop::Update()
 	ball.Update();
 
 	i++; // Increment gameloop counter
+}
+
+// Check for possible collisions
+void GameLoop::CollisionDetection()
+{
+	// Check for collisions between the table and ball
+	if (CheckCollision(*transform2.GetPos(), 7.25f, *transform3.GetPos(), 1.5f))
+	{
+		if (ball.Impact())
+		{
+			audio.playSound(sounds[1]);
+		}
+	}
 }
 
 void GameLoop::Draw()
@@ -193,7 +192,11 @@ void GameLoop::Draw()
 
 bool GameLoop::CheckCollision(glm::vec3 aPosition, float aRadius, glm::vec3 bPosition, float bRadius)
 {
-	float distance = sqrt(pow(bPosition.x - aPosition.x, 2) + pow(bPosition.y - aPosition.y, 2) + pow(bPosition.z - aPosition.z, 2));
+	float distance = sqrt(
+		pow(bPosition.x - aPosition.x, 2) +
+		pow(bPosition.y - aPosition.y, 2) +
+		pow(bPosition.z - aPosition.z, 2)
+	);
 	if (distance - aRadius - bRadius < 0)
 	{
 		return true;
